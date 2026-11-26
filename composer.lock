@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/atwx/silverstripe-frontdesk-kit.git",
-                "reference": "6bed97ada9bb38b030a7dcc784489e963eadd3c5"
+                "reference": "e79a5694b439c6ec1043e01aaad6816710645fe4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atwx/silverstripe-frontdesk-kit/zipball/6bed97ada9bb38b030a7dcc784489e963eadd3c5",
-                "reference": "6bed97ada9bb38b030a7dcc784489e963eadd3c5",
+                "url": "https://api.github.com/repos/atwx/silverstripe-frontdesk-kit/zipball/e79a5694b439c6ec1043e01aaad6816710645fe4",
+                "reference": "e79a5694b439c6ec1043e01aaad6816710645fe4",
                 "shasum": ""
             },
             "require": {
@@ -52,8 +52,8 @@
                 "issues": "https://github.com/atwx/silverstripe-frontdesk-kit/issues",
                 "source": "https://github.com/atwx/silverstripe-frontdesk-kit/tree/main"
             },
-            "time": "2026-11-26T12:17:07+00:00",
-            "published-time": "2026-11-26T12:17:12+00:00"
+            "time": "2026-11-26T13:12:28+00:00",
+            "published-time": "2026-11-26T13:12:33+00:00"
         },
         {
             "name": "atwx/silverstripe-projectinfo",

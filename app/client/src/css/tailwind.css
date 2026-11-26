@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "@fdk/preset.css";
+
+@plugin "@tailwindcss/typography";
+
+@source "../../../templates/**/*.ss";
+@source "../../../src/**/*.php";

@@ -1,0 +1,10 @@
+/.env
+/.idea
+/.vscode
+/vendor/
+/node_modules/
+/_resources/
+/public/_resources/
+/public/_graphql/
+/.graphql-generated/
+/app/client/dist

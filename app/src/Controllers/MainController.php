@@ -2,22 +2,30 @@
 
 namespace App\Controllers;
 
+use App\Features\FeatureRegistry;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Model\ArrayData;
+use SilverStripe\Model\List\ArrayList;
 
 /**
- * Class \App\Controllers\MainController
+ * Public start page: what the kit is, the demo login and all features with
+ * links to the live example and the code.
  *
  */
 class MainController extends BaseController
 {
-    private static $allowed_actions = [
-    ];
-
     public function index(HTTPRequest $request)
     {
-        return [
-            'Title' => 'Home',
-            'Content' => 'Welcome to the Silverstripe frontdesk-kit template',
-        ];
+        return ['Title' => 'frontdesk-kit demo'];
+    }
+
+    /**
+     * Features by group.
+     *
+     * @return ArrayList<ArrayData>
+     */
+    public function FeatureGroups(): ArrayList
+    {
+        return FeatureController::singleton()->FeatureGroups();
     }
 }

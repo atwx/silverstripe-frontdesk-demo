@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "@fdk/preset.css";
+/* Colours of the code on the feature pages */
+@import "highlight.js/styles/github.css";
 
 @plugin "@tailwindcss/typography";
 

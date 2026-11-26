@@ -1,4 +1,4 @@
-name: frontdesk-kit-template
+name: frontdesk-demo
 type: silverstripe
 docroot: public
 php_version: "8.4"

@@ -1,0 +1,46 @@
+---
+Name: app-navigation
+---
+# [demo:navigation]
+Atwx\SilverstripeFrontdeskKit\Controller\FrontdeskController:
+  main_navigation:
+    dashboard:
+      title: 'Dashboard'
+      segment: 'dashboard'
+      permission: 'FDK_PROJECTS_VIEW'
+    clients:
+      title: 'Clients'
+      segment: 'clients'
+      controller: 'App\Controllers\ClientController'
+    contacts:
+      title: 'Contacts'
+      segment: 'contacts'
+      controller: 'App\Controllers\ContactController'
+    projects:
+      title: 'Projects'
+      segment: 'projects'
+      controller: 'App\Controllers\ProjectController'
+    tasks:
+      title: 'Tasks'
+      segment: 'tasks'
+      link: 'tasks?view=mine'
+      controller: 'App\Controllers\TaskController'
+      icon: 'square-check'
+      icon_only: true
+      badge: 'App\Controllers\TaskController::countMine'
+      badge_secondary: 'App\Controllers\TaskController::countUnassigned'
+    more:
+      title: 'More'
+      children:
+        catalogs:
+          title: 'Catalogs'
+          segment: 'catalogs'
+          controller: 'Atwx\SilverstripeFrontdeskKit\Controller\CatalogController'
+        features:
+          title: 'All features'
+          segment: 'features'
+  secondary_navigation:
+    github:
+      title: 'Kit on GitHub'
+      link: 'https://github.com/atwx/silverstripe-frontdesk-kit'
+# [/demo:navigation]

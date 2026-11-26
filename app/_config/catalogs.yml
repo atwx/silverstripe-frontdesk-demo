@@ -1,0 +1,9 @@
+---
+Name: app-catalogs
+---
+# [demo:catalogs]
+Atwx\SilverstripeFrontdeskKit\Catalog\Catalogs:
+  catalogs:
+    project_type: { title: 'Project types' }
+    tags: { title: 'Tags' }
+# [/demo:catalogs]

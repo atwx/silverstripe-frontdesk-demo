@@ -1,0 +1,35 @@
+---
+Name: app-demo
+After:
+  - '#silverstripe-frontdesk-kit'
+  - '#mailer'
+---
+SilverStripe\i18n\i18n:
+  default_locale: 'en_US'
+
+SilverStripe\Cli\Sake:
+  commands:
+    'demo:seed': App\Commands\SeedCommand
+    'demo:reset': App\Commands\ResetCommand
+
+# The shared demo account cannot be changed or locked out.
+SilverStripe\Security\Member:
+  extensions:
+    - App\Demo\DemoAccount
+
+# [demo:uploads]
+# Public demo: small images only, no other files.
+Atwx\SilverstripeFrontdeskKit\Forms\FileUploadField:
+  max_file_size: '2M'
+  allowed_extensions: [jpg, jpeg, png, webp]
+# [/demo:uploads]
+
+# No mails leave the demo (e.g. "lost password").
+SilverStripe\Core\Injector\Injector:
+  Symfony\Component\Mailer\Transport\TransportInterface:
+    constructor:
+      dsn: 'null://null'
+
+# After logging in without a target: the dashboard.
+SilverStripe\Security\Security:
+  default_login_dest: 'dashboard'

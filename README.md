@@ -1,93 +1,88 @@
-# Silverstripe frontdesk-kit Template
+# silverstripe-frontdesk-kit demo
 
-A minimal Silverstripe 6.2 starter project preconfigured for the
-[`atwx/silverstripe-frontdesk-kit`](https://github.com/atwx/silverstripe-frontdesk-kit) module.
+A public demo of [`atwx/silverstripe-frontdesk-kit`](https://github.com/atwx/silverstripe-frontdesk-kit):
+a small agency back office (clients, contacts, projects, tasks) that shows
+every feature of the kit live, next to the code that builds it.
 
-Comes with:
+- Start page and feature pages (`/`, `/features/<key>`) are public.
+- The live examples need a login. The demo account is shown on the login page:
+  `demo@frontdesk-demo.test` / `Try-Frontdesk-2026`.
+- Everyone shares this account and may change anything. **All data is reset
+  every night.**
 
-- DDEV (Apache + PHP 8.4 + MariaDB 10.11) with a headless Chrome service
-- Vite 6 frontend build with Tailwind CSS 4 and DaisyUI 5 (single build, imports
-  the frontdesk-kit preset — see [Frontend CSS](#frontend-css))
-- SCSS support via `sass-embedded`
-- Silverstripe Vite helper (`atwx/silverstripe-vitehelper`)
-- Project info (`atwx/silverstripe-projectinfo`)
-- Gate client (`atwx/silverstripe-gate-client`) for SSO logins from a central [Gate Manager](https://github.com/atwx/silverstripe-gate-manager)
-- Gate API (`atwx/silverstripe-gate-api`), JWT authenticated content API (site role, enabled by the gate client)
-- Gate tasks (`atwx/silverstripe-gate-tasks`, dev only): `sake tasks:pull-live` and `sake tasks:remote`
-- Headless PDF rendering (`atwx/silverstripe-headless-pdf` + `chrome-php/chrome`, talks to the DDEV Chrome service)
-- Rector (`wernerkrauss/silverstripe-rector`)
-- PHPStan with Silverstan (`cambis/silverstan`)
-- PHPCS (PSR-2 with Silverstripe-friendly exceptions)
-- IDE Annotator (`silverleague/ideannotator`)
+## Features shown
 
-## Getting started
+Lists and columns · filters (text, select, catalog, multiple choice, date
+range, tree) · views, saved views, column choice · Excel exports · bulk actions
+(options, dialog with fields, confirmation) · row actions · forms with groups
+and access levels · record view with cards and tabs · record pages in a sidebar
+with a searchable switcher · sub-lists and "edit several" · record actions and
+timeline · file uploads · pages without login · catalogs · navigation with
+badges · charts · recently viewed.
 
-1. Use this template on GitHub or clone it locally.
-2. `ddev start`
-3. `ddev composer install`
-4. `ddev yarn install`
-5. `ddev yarn build` (or `ddev yarn dev` for the Vite dev server)
-6. `ddev sake db:build --flush`
+## How the feature pages work
 
-The site is available at `https://frontdesk-kit-template.ddev.site/`,
-admin at `/admin` (default credentials: `admin` / `admin` — see `.env`).
+`app/_config/features.yml` lists the features: title, group, summary, the live
+example and the code regions that build it. A region is cut from the project's
+own files between markers, so the page always shows the code that runs:
 
-## Vite dev server
-
-To use Hot Module Replacement, copy `.env.example` to `.env` and uncomment
-`VITE_DEV_SERVER_URL`, then run `ddev yarn dev` in a second terminal.
-The dev server is exposed on port 5173 via DDEV's router.
-
-## Frontend CSS
-
-This template builds **one** Tailwind bundle that styles the whole page — the kit
-and the app share a single DaisyUI runtime. `app/client/src/css/tailwind.css`
-imports the frontdesk-kit preset:
-
-```css
-@import "tailwindcss";
-@import "@fdk/preset.css";   /* daisyUI config + kit @source globs + .fdk-* chrome */
-
-@source "../../../templates/**/*.ss";
-@source "../../../src/**/*.php";
+```php
+// [demo:filters]
+protected function defineFilters(): FilterCollection
+{
+    …
+}
+// [/demo:filters]
 ```
 
-The `@fdk` alias points at the kit's CSS directory in `vendor/`. With
-`@tailwindcss/vite` it **must be an absolute path** (see `vite.config.js`); a
-relative alias is not resolved for CSS `@import`.
+YAML uses `# [demo:…]`, templates `<%-- [demo:…] --%>`. The bar "How is this
+built?" below the header links the features whose `match` patterns fit the
+current URL. See `App\Features\FeatureRegistry`.
 
-The kit's prebuilt `frontdesk.css` is intentionally **not** loaded in `Page.ss` —
-loading it as a second stylesheet would create a second DaisyUI runtime that can
-override the kit's component styles. Only the kit's `frontdesk.js` is loaded via
-`resourceURL()`. For the alternative prebuilt-CSS mode and theming, see the
-[frontdesk-kit frontend docs](https://github.com/atwx/silverstripe-frontdesk-kit/blob/main/docs/frontend.md).
+To show a new feature: mark the code, add an entry to `features.yml`.
 
-> If you add another Composer module that ships Tailwind-using templates, add its
-> template path as another `@source` in `tailwind.css` so its classes are emitted.
-
-## Quality tooling
+## Local setup
 
 ```sh
-ddev composer phpstan       # static analysis
-ddev composer rector-dry    # show pending refactors
-ddev composer rector        # apply refactors
-ddev composer lint          # phpcs
-ddev composer fix           # phpcbf
+ddev start
+ddev composer install
+ddev exec yarn install
+ddev exec yarn build
+ddev exec vendor/bin/sake db:build --flush
+ddev exec vendor/bin/sake demo:seed
 ```
 
-## Project layout
+The site runs at `https://frontdesk-demo.ddev.site/` (add the host with
+`ddev hostname frontdesk-demo.ddev.site 127.0.0.1` if your system does not
+resolve `*.ddev.site`). The CMS admin comes from `SS_DEFAULT_ADMIN_*` in `.env`.
 
+## Server
+
+Deploy (on every push to `main`):
+
+```sh
+composer install --no-dev --optimize-autoloader
+yarn install && yarn build
+vendor/bin/sake db:build --flush
+vendor/bin/sake demo:seed        # creates what is missing, never overwrites
 ```
-app/
-  _config/         # YAML config
-  _config.php      # PHP bootstrap
-  client/
-    src/
-      css/         # tailwind.css entry
-      scss/        # main.scss entry
-      js/          # main.js entry
-    dist/          # Vite build output (gitignored)
-  src/             # PHP source
-  templates/       # .ss templates
-public/            # docroot
+
+Nightly cron job:
+
+```sh
+vendor/bin/sake demo:reset       # removes all data, saved views, uploads; seeds again
 ```
+
+Environment: `SS_ENVIRONMENT_TYPE="live"`, a strong `SS_DEFAULT_ADMIN_PASSWORD`
+(the admin is never shown), database credentials.
+
+## Safety of the public demo
+
+- The demo account cannot change its name, email or password (`App\Demo\DemoAccount`),
+  the profile page is closed for it, and wrong passwords of others never lock it.
+- It has no CMS access, only the permissions of the group "Team".
+- Uploads: images only (jpg, png, webp), at most 2 MB, stored protected
+  (`app/_config/demo.yml`); they are deleted with the nightly reset.
+- No mail leaves the site (null mailer), e.g. "lost password".
+- The feedback page (`feedback/<token>`) only accepts a 32-character token and
+  writes only the two feedback fields.

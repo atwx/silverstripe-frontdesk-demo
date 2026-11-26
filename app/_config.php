@@ -2,4 +2,5 @@
 
 use SilverStripe\i18n\i18n;
 
-i18n::set_locale('de_DE');
+// The demo is in English.
+i18n::set_locale('en_US');

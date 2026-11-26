@@ -4,3 +4,50 @@
 :root {
     --fdk-font-family: "Open Sans Variable", system-ui, sans-serif;
 }
+
+// Bar "How is this built?" below the header, linking to the feature pages.
+.demo-feature-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background: color-mix(in oklab, var(--color-primary, #6366f1) 8%, white);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-primary, #6366f1) 20%, white);
+}
+
+.demo-feature-bar-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+}
+
+.demo-feature-chip {
+    padding: 0.125rem 0.6rem;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid color-mix(in oklab, var(--color-primary, #6366f1) 30%, white);
+    text-decoration: none;
+
+    &:hover {
+        border-color: var(--color-primary, #6366f1);
+    }
+}
+
+// Code of the feature pages
+.demo-code {
+    overflow-x: auto;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: #f6f8fa;
+    border: 1px solid #e5e7eb;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+
+    code.hljs {
+        padding: 0;
+        background: transparent;
+    }
+}

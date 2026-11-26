@@ -1,0 +1,215 @@
+---
+Name: app-features
+---
+# The features of the demo (App\Features\FeatureRegistry): each with its live
+# example and the code regions ([demo:<region>] markers) that build it.
+App\Features\FeatureRegistry:
+  features:
+    columns:
+      group: 'Lists'
+      title: 'Lists and columns'
+      summary: 'A list is a controller with a managed model and a column definition: links, badges, formatted values and sortable headers, all on the database.'
+      points:
+        - 'Click a column header to sort, again to reverse.'
+        - 'Columns can be optional (off by default) or only in the export.'
+        - 'Filters, sort and page are kept in the URL, the list reloads with htmx.'
+      live: 'projects'
+      match: ['^projects$']
+      docs: 'columns.md'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'columns', caption: 'defineColumns()' }
+    filters:
+      group: 'Lists'
+      title: 'Filters'
+      summary: 'Text, select, catalog, multiple choice with any/all and date ranges – each filter is one line plus the query it applies.'
+      points:
+        - 'Selects reload the list at once, text fields while typing.'
+        - '"Tags" offers a choice between any and all of the chosen tags.'
+      live: 'projects'
+      match: ['^projects$']
+      docs: 'filters.md'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'filters', caption: 'defineFilters()' }
+    tree:
+      group: 'Lists'
+      title: 'Tree filter and grouped rows'
+      summary: 'Choose nested values in a tree (industries) and show a heading row per value of a field (country).'
+      live: 'clients'
+      match: ['^clients$']
+      docs: 'filters.md'
+      code:
+        - { file: 'app/src/Controllers/ClientController.php', region: 'tree', caption: 'TreeFilter on a nested model' }
+        - { file: 'app/src/Controllers/ClientController.php', region: 'grouped', caption: 'groupBy()' }
+        - { file: 'app/src/Controllers/TaskController.php', region: 'grouped', caption: 'Tasks grouped by project' }
+    listviews:
+      group: 'Lists'
+      title: 'Views, saved views and column choice'
+      summary: 'Views above the list are filters, queries and columns under a name. Members save their own views and pick their columns under "Columns".'
+      points:
+        - 'Set some filters and press "Save view" – the view is yours (or shared with the team).'
+        - '"Ending within 30 days" uses a query relative to today and its own columns.'
+      live: 'projects?view=active'
+      match: ['^projects$']
+      docs: 'list-views.md'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'listviews', caption: 'defineListViews()' }
+    export:
+      group: 'Lists'
+      title: 'Excel export'
+      summary: '"Export" writes the filtered list to an .xlsx file with its columns; more exports have their own columns, file name and query.'
+      live: 'projects'
+      match: ['^projects$']
+      docs: 'columns.md#export'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'export', caption: 'defineExports()' }
+    bulk:
+      group: 'Lists'
+      title: 'Bulk actions'
+      summary: 'Tick rows (or all matches of the filter) and run an action on them: with options, with a dialog asking for values, or with a confirmation.'
+      points:
+        - 'Tick the whole page to get "Select all N matches".'
+        - '"Assign manager …" opens a dialog with two fields.'
+      live: 'projects'
+      match: ['^projects$']
+      docs: 'bulk-actions.md'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'bulk', caption: 'defineBulkActions()' }
+    rowactions:
+      group: 'Lists'
+      title: 'Row actions'
+      summary: 'Actions per row as icons or in a menu: links, dialogs loaded with htmx, conditional actions.'
+      live: 'tasks?view=mine'
+      match: ['^tasks$', '^contacts$']
+      docs: 'row-actions.md'
+      code:
+        - { file: 'app/src/Controllers/TaskController.php', region: 'rowactions', caption: '"Mark as done" in a dialog' }
+        - { file: 'app/src/Controllers/ContactController.php', region: 'rowactions', caption: 'Mail and call, only when there is an address' }
+    fieldlayout:
+      group: 'Records'
+      title: 'Forms with groups and access levels'
+      summary: 'One field layout drives the form, the record view and saving: groups, collapsed groups and fields that are writable, read-only or hidden – also per record.'
+      points:
+        - 'A project that is done keeps its budget read-only.'
+        - 'A manipulated POST cannot change a read-only field.'
+      live: 'projects/edit/{ID}'
+      live_record: 'App\Models\Project'
+      match: ['^projects/edit/\d+$']
+      docs: 'field-layout.md'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'fieldlayout', caption: 'defineFieldLayout()' }
+    cards:
+      group: 'Records'
+      title: 'Record view with cards and tabs'
+      summary: 'A project opens with collapsible cards on the left (one per field group, plus the client) and tabs on the right; each card edits only its own fields.'
+      points:
+        - 'Cards remember whether you opened or closed them.'
+        - 'The client card is a compact view of the related record.'
+        - 'The select field switches to another project of the same client.'
+      live: 'projects/view/{ID}'
+      live_record: 'App\Models\Project'
+      match: ['^projects/view/\d+(/[a-z-]+)?$']
+      docs: 'record-pages.md#layout-cards-and-tabs'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'cards', caption: 'defineRecordPages() with layout tabs' }
+        - { file: 'app/src/Controllers/ClientController.php', region: 'cards', caption: 'The client on a project card' }
+    sidebar:
+      group: 'Records'
+      title: 'Record pages in a sidebar'
+      summary: 'A client opens with pages in a sidebar, a header with key figures, a logo and a searchable switcher to the other clients.'
+      live: 'clients/view/{ID}'
+      live_record: 'App\Models\Client'
+      match: ['^clients/view/\d+(/[a-z-]+)?$']
+      docs: 'record-pages.md'
+      code:
+        - { file: 'app/src/Controllers/ClientController.php', region: 'sidebar', caption: 'defineRecordPages() with a switcher' }
+    subcontrollers:
+      group: 'Records'
+      title: 'Sub-lists and editing several'
+      summary: 'Tasks belong to a project: a sub-controller lists, adds and edits them inside the project, and changes several at once.'
+      points:
+        - '"Edit several" applies only the fields you fill in.'
+      live: 'projects/view/{ID}/tasks'
+      live_record: 'App\Models\Project'
+      match: ['^projects/view/\d+(/tasks)?$']
+      docs: 'sub-controllers.md'
+      code:
+        - { file: 'app/src/Controllers/TaskSubController.php', region: 'subcontrollers', caption: 'The sub-controller' }
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'subcontrollers', caption: 'Mounted in the project controller' }
+    recordactions:
+      group: 'Records'
+      title: 'Record actions and timeline'
+      summary: 'Buttons on a record open a dialog with options, a comment and more fields; the handler may refuse with a message. The timeline shows what happened.'
+      points:
+        - '"Change status" to Done is refused while tasks are open.'
+      live: 'projects/view/{ID}/history'
+      live_record: 'App\Models\Project'
+      match: ['^projects/view/\d+(/history)?$']
+      docs: 'field-layout.md#record-actions'
+      code:
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'recordactions', caption: 'defineRecordActions()' }
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'timeline', caption: 'defineTimeline()' }
+    files:
+      group: 'Records'
+      title: 'File uploads'
+      summary: 'A has_one image or file gets an upload field. Files stay protected and are only delivered through the controller that shows the record.'
+      live: 'contacts/add'
+      match: ['^contacts/(add|edit/\d+)$']
+      docs: 'files.md'
+      code:
+        - { file: 'app/src/Controllers/ContactController.php', region: 'files', caption: 'Photo in the field layout' }
+        - { file: 'app/_config/demo.yml', region: 'uploads', caption: 'Limits of this public demo' }
+    standalone:
+      group: 'Records'
+      title: 'Pages without login'
+      summary: 'A link with a token opens one record without an account, e.g. for a client''s feedback; only the fields you allow can be written.'
+      live: 'projects/view/{ID}'
+      live_record: 'App\Models\Project'
+      match: ['^feedback/[a-f0-9]+$']
+      docs: 'field-layout.md#standalone-record-page-no-login'
+      code:
+        - { file: 'app/src/Controllers/FeedbackController.php', region: 'standalone', caption: 'StandaloneRecordController' }
+    catalogs:
+      group: 'Setup'
+      title: 'Catalogs'
+      summary: 'Lists of values that admins maintain (project types, tags): searchable choices in forms, titles in views, filters – and a page to maintain them.'
+      points:
+        - 'Inactive entries cannot be chosen any more but stay on records.'
+      live: 'catalogs'
+      match: ['^catalogs']
+      docs: 'catalogs.md'
+      code:
+        - { file: 'app/_config/catalogs.yml', region: 'catalogs', caption: 'Declaring the catalogs' }
+        - { file: 'app/src/Models/Project.php', region: 'catalogfields', caption: 'Catalog fields of a model' }
+    navigation:
+      group: 'Setup'
+      title: 'Navigation and badges'
+      summary: 'The header is configured in YAML: entries by permission or controller, submenus, counters, icon-only entries with a second counter.'
+      points:
+        - 'The task icon counts your open tasks and, darker, those without an assignee.'
+      live: 'dashboard'
+      match: ['^dashboard$']
+      docs: 'navigation.md'
+      code:
+        - { file: 'app/_config/navigation.yml', region: 'navigation', caption: 'main_navigation' }
+        - { file: 'app/src/Controllers/TaskController.php', region: 'navigation', caption: 'The counters' }
+    charts:
+      group: 'Setup'
+      title: 'Charts'
+      summary: 'Chart.js is bundled: a controller method returns the chart config, an include renders it.'
+      live: 'dashboard'
+      match: ['^dashboard$']
+      docs: 'charts.md'
+      code:
+        - { file: 'app/src/Controllers/DashboardController.php', region: 'charts', caption: 'Chart configs' }
+        - { file: 'app/templates/App/Controllers/Layout/DashboardController.ss', region: 'charts', caption: 'Template' }
+    recent:
+      group: 'Setup'
+      title: 'Recently viewed'
+      summary: 'Records a member opened are noted: a list view, the list sorted with them first, a "last viewed" column and a block on the dashboard.'
+      live: 'dashboard'
+      match: ['^dashboard$']
+      docs: 'recent-views.md'
+      code:
+        - { file: 'app/src/Controllers/ClientController.php', region: 'recent', caption: 'Clients: noted, listed first' }
+        - { file: 'app/src/Controllers/ProjectController.php', region: 'recent', caption: 'Projects' }
+        - { file: 'app/templates/App/Controllers/Layout/DashboardController.ss', region: 'recent', caption: 'Block on the dashboard' }

@@ -3,7 +3,17 @@ Name: approutes
 After:
   - '#rootroutes'
   - '#coreroutes'
+  - '#silverstripe-frontdesk-kit-routes'
 ---
 SilverStripe\Control\Director:
   rules:
     '': 'App\Controllers\MainController'
+    'dashboard': 'App\Controllers\DashboardController'
+    'features//$Key': 'App\Controllers\FeatureController'
+    'clients//$Action/$ID/$OtherID': 'App\Controllers\ClientController'
+    'contacts//$Action/$ID/$OtherID': 'App\Controllers\ContactController'
+    'projects//$Action/$ID/$OtherID': 'App\Controllers\ProjectController'
+    'tasks//$Action/$ID/$OtherID': 'App\Controllers\TaskController'
+    'feedback': 'App\Controllers\FeedbackController'
+    # The kit's profile page, closed for the shared demo account
+    'profile//$Action/$ID': 'App\Controllers\DemoProfileController'
